@@ -15,3 +15,5 @@ for i in range(int(argv[2])):
 	stdout = Popen('./generator ' + perm, shell=True, stdout=PIPE).stdout
 	output = stdout.read()
 	call(["./verifier", output])
+
+call(["make", "clean"])

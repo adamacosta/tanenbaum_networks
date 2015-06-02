@@ -15,4 +15,4 @@ verifier: verifier.c
 #### Cleanup ####
 
 clean:
-	rm -f *.o
+	rm -f generator verifier
