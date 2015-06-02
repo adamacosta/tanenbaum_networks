@@ -3,12 +3,12 @@
 #include <string.h>
 #include <stdint.h>
 
-#define GEN 0xD8
-#define WIDTH (8 * sizeof(uint8_t))
-#define TOPBIT (1 << (WIDTH - 1))
-#define MAX_LEN 2048
-
 typedef uint8_t crc;
+
+#define GEN 0xD8 /* generator polynomial */
+#define WIDTH (8 * sizeof(crc)) /* number of bits in CRC */
+#define TOPBIT (1 << (WIDTH - 1))
+#define MAX_LEN 2048 /* maximum message length, including CRC */
 
 crc get_crc(uint8_t const message[], int n_bytes) {
 	crc remainder = 0;

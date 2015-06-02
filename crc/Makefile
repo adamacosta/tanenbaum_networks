@@ -1,6 +1,6 @@
 CC     = gcc
 CFLAGS = -Wall -std=c99
-CLIBS = -lm
+CLIBS  = -lm
 
 #### Build for test ####
 
