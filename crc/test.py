@@ -32,4 +32,4 @@ for i in range(int(argv[2])):
 	output = stdout.read()
 	call(["./verifier", output])
 
-call(["make", "clean"])
+# call(["make", "clean"])
