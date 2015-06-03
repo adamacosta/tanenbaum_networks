@@ -1,3 +1,13 @@
+/******************************************************************************
+ * 
+ * CRC16 algorithm borrowed from Lammert Bies:
+ * http://www.lammertbies.nl/comm/software/
+ * 
+ * Code modified to use unions to allow direct access to each byte of a 
+ * 16-bit CRC. 
+ * 
+ *****************************************************************************/
+
 #include "crc.h"
 
 static crc crc_table[256];

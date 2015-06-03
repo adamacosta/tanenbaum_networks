@@ -1,3 +1,14 @@
+/******************************************************************************
+ * 
+ * generator
+ * ---------
+ * Depends on crc.h
+ *  
+ * Receives byte stream from command-line argument and outputs the same byte
+ * stream with CRC appended to stdout.  
+ *
+ *****************************************************************************/
+
 #include "crc.h"
 
 int main(int argc, char **argv) {

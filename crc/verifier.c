@@ -1,3 +1,13 @@
+/******************************************************************************
+ * 
+ * verifier
+ * --------
+ * Depends on crc.h
+ * 
+ * Receives input from stdin with CRC appended and verifies input not corrupted
+ * 
+ *****************************************************************************/
+
 #include "crc.h"
 
 int main(int argc, char **argv) {
