@@ -1,27 +1,14 @@
 #include "crc.h"
 
 int main(int argc, char **argv) {
+	crc c;
+	char s;
 
-	if (argc != 2) {
-		fprintf(stderr, "usage: verifier [message]\n");
-		exit(1);
-	}
+	c.c = 0;
+	while (read(0, &s, 1) > 0)
+		c = update_crc(c, s);
 
-	uint8_t *msg;
-	crc check;
-	int i;
-	size_t n_bytes;
-
-	/* convert message to array of single-byte ints */
-	n_bytes = strlen(argv[1]);
-	msg = malloc(n_bytes);
-	for (i = 0; i < n_bytes; i++) {
-		msg[i] = argv[1][i] - '0';
-	}
-
-	check = get_crc(msg, n_bytes); /* should be zero */
-	free(msg);
-	if (check)
+	if (c.c)
 		printf("error: crc not correct\n");
 	else
 		printf("success: crc correct\n");

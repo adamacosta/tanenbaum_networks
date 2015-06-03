@@ -7,23 +7,14 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 
-	uint8_t msg[MAX_LEN];
-	char out_msg[MAX_LEN];
-	char pad[9];
-	crc check;
+	crc c;
 	int i;
-	size_t n_bytes;
 
-	/* convert message to array of single-byte ints */
-	n_bytes = strlen(argv[1]);
-	for (i = 0; i < n_bytes; i++) {
-		msg[i] = argv[1][i] - '0';
-		out_msg[i] = argv[1][i];
-	}
-	out_msg[n_bytes] = '\0';
-	check = get_crc(msg, n_bytes);
-	binary_repr(check, pad);
-	printf("%s", strcat(out_msg, pad));
+	c.c = 0;
+	for (i = 0; i < strlen(argv[1]); i++)
+		c = update_crc(c, argv[1][i]);
+
+	printf("%s%c%c", argv[1], c.bytes.byte1, c.bytes.byte2);
 
 	return 0;
 }
