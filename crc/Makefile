@@ -20,4 +20,4 @@ alter: alter.c $(INC) $(HDR)
 #### Cleanup ####
 
 clean:
-	rm -f generator verifier
+	rm -f generator verifier alter
