@@ -14,6 +14,9 @@ generator: generator.c $(INC) $(HDR)
 verifier: verifier.c $(INC) $(HDR)
 	$(CC) -o verifier $(CFLAGS) verifier.c $(INC) $(LIBS)
 
+alter: alter.c $(INC) $(HDR)
+	$(CC) -o alter $(CFLAGS) alter.c $(INC) $(LIBS)
+
 #### Cleanup ####
 
 clean:
