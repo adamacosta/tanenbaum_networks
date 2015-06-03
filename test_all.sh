@@ -16,7 +16,7 @@ echo "    Test 1: Chapter 3 Lab - CRC Error Checking    "
 echo "=================================================="
 
 cd $DIR1
-python test.py 32 8
+python test.py 64 8
 cd ..
 
 echo "=================================================="
