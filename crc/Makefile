@@ -6,7 +6,7 @@ INC    = crc.c
 
 #### Build for test ####
 
-all: generator verifier
+all: generator verifier alter
 
 generator: generator.c $(INC) $(HDR)
 	$(CC) -o generator  $(CFLAGS) generator.c $(INC) $(LIBS)
