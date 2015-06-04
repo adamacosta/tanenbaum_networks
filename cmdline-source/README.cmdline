@@ -1,0 +1,121 @@
+This package contains a simulator for simulating the datalink protocols
+described in Chapter 3 of "Computer Networks 5/e" by Andrew S. Tanenbaum
+and David J. Wetherall, published by Prentice Hall PTR, 2011. This
+software was originally written for the 3rd edition of the book by Andrew
+S. Tanenbaum.  It was revised for the 4th edition by Shivakant Mishra
+and subsequenty revised for the 5th edition by Stephen W. Turner. It
+may be freely distributed.
+
+This package may be used in two ways: (1) using X window-based graphical
+user interface, and (2) using the Unix/Linux command-line interface.
+
+**********************************************************************************
+*** This README file covers only the command-line interface for the simulator. ***
+*** For instructions on using the GUI, see README.gui.                         ***
+**********************************************************************************
+
+Command-Line Interface
+----------------------
+
+This simulator provides five separate executable programs, named protocol2
+through protocol6.  Each of these simulates the corresponding protocol
+from Chapter 3 of the text.
+
+To compile the programs, a Makefile is provided.  To use it, simply type
+'make' on the command line, for example:
+
+	make
+
+You can also make individual protocol executable file by typing "make protocolN",
+for example:
+
+	make protocol5
+
+If you need to use cc instead of gcc, then change the line
+
+	CC=gcc
+
+to
+
+	CC=cc
+
+in Makefile.
+
+
+To run the programs, see the section below entitled "Running the Protocol
+Programs".
+
+
+Compiling Without Makefile
+--------------------------
+
+This set of steps is only necessary if you do not have make installed on
+your system.  If you don't have make, then you can compile the simulator
+and the protocols individually. The simulator code is in the file
+simulator.c with header file simulator.h, and files p2.c, p3.c, p4.c,
+p5.c, and p6.c provide the protocol codes for the datalink protocols
+described in chapter 3. Assuming you have gcc installed, compile the
+simulator as follows:
+
+	gcc -c simulator.c
+
+This will create an object file called simulator.o that needs to be linked
+with the protocol being simulated.  Note that for this and all subsequent
+compilation steps, you can substitute 'cc' for 'gcc', for example:
+
+	cc -c simulator.c
+
+After you have created simulator.o, compile the protocols as follows:
+
+        gcc -o protocol-name protocol-filename.c simulator.o
+
+For example, to compile protocol 6, use the following command:
+
+	gcc -o protocol6 p6.c simulator.o
+
+
+
+Running the Protocol Programs
+-----------------------------
+
+Each protocol program can then be executed as follows:
+
+	./protocol-program events  timeout  pct_loss  pct_cksum  debug_flags datafile_flag
+
+where
+
+        * events tells how long to run the simulation
+        * timeout gives the timeout interval in ticks
+        * pct_loss gives the percentage of frames that are lost (0-99)
+        * pct_cksum gives the percentage of arriving frames that are bad (0-99)
+        * debug_flags enables various tracing flags:
+                1	frames sent
+                2	frames received
+                4	timeouts
+                8	periodic printout for use with long runs
+	* datafile_flag enables output of summary data to a data file
+			for later processing with a script (including
+			the GUI).  The output file will be "totdata.txt".
+	  Values of this flag are 0 or 1:
+		0	do not append data to totdata.txt
+		0	append data to totdata.txt
+
+For example
+
+	./protocol6 100000 40 20 10 3 1
+
+will run protocol 6 for 100,000 events with a timeout interval of
+40 ticks, a 20% packet loss rate, a 10% rate of checksum errors (of
+the 80% that get through), and it will print a line for each frame
+sent or received.  Summary data will also be appended to totdata.txt.
+
+In this simulator, because each peer process is represented by a
+different UNIX process, there is (quasi)parallel processing going on.
+This means that successive runs may not give the same results due to
+timing fluctuations.
+
+Protocol designers are advised to read file protocol.h. This file contains
+the definitions of the data structures that the simulator uses, and a
+description of the function prototypes that the simulator provides.
+
+A set of possible student exercises is given in the file exercises.
