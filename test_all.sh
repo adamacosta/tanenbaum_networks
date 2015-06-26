@@ -8,6 +8,7 @@
 #################################################
 
 export DIR1=crc
+export DIR2=csma
 
 # ===== Test run =====
 
@@ -15,10 +16,22 @@ echo "=================================================="
 echo "    Test 1: Chapter 3 Lab - CRC Error Checking    "
 echo "=================================================="
 
-cd $DIR1
+pushd $DIR1 > /dev/null
 python -m unittest discover
-cd ..
+popd > /dev/null
 
 echo "=================================================="
 echo "                Test 1 Complete                   "
 echo "=================================================="
+
+echo "=================================================="
+echo "    Test 2: Chapter 4 Lab - CSMA/CD Contention    "
+echo "=================================================="
+
+pushd $DIR2 > /dev/null
+./run.sh
+popd > /dev/null
+
+echo "=================================================="
+echo "                Test 2 Complete                   "
+echo 
