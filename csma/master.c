@@ -5,7 +5,7 @@ static sigset_t vtalrm;
 static struct itimerval timer;
 static struct sigaction act;
 
-/* Sends broadcast signal to all stations waiting for time slot */
+/* Send broadcast signal to all stations waiting for time slot */
 void alrm_handler(int sig) {
 	//printf("alarm\n");
 	slot_count++;
@@ -15,7 +15,7 @@ void alrm_handler(int sig) {
 /*
  * master :
  *
- * Fields the time slot alarm and send broadcast signal to all 
+ * Field the time slot alarm and send broadcast signal to all 
  * threads ready to transmit.
  */
 void *master(void *arg) {

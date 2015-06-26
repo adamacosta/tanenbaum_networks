@@ -1,5 +1,6 @@
 #include "csma.h"
 
+/* optional print statements for debugging */
 void debug(const char *format, ...) {
 	if (DEBUG == 0)
 		return;
