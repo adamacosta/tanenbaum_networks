@@ -2,15 +2,15 @@ CC = gcc
 CFLAGS = -g -Wall
 LIBS = -lpthread
 
-SRC = csmacd.c
+SRC = main.c master.c station.c
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
 # pattern rule for object files
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-all: csmacd.o
-	$(CC) -o csma csmacd.o $(LIBS)
+all: $(OBJ)
+	$(CC) -o csma $(OBJ) $(LIBS)
 	$(RM) -f *.o
 
 clean:
