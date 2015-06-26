@@ -59,6 +59,32 @@ void transmit(int tid, int wait) {
 	}
 	trans_count++;
 	global_wait += wait;
+	on_wire--;
+	pthread_mutex_unlock(&wire);
+}
+
+void wait(int tid) {
+	int wait;
+	int total_wait;
+
+	wait = 0;
+	total_wait = 0;
+	on_wire--;
+	pthread_mutex_unlock(&wire);
+	while (1) {
+		wait = (1 + rand() % n_stations) * TIME_SLOT;
+		total_wait += wait;
+		//printf("station %d waiting %d usecs\n", tid, wait);
+		usleep(wait);
+		pthread_mutex_lock(&wire);
+		on_wire++;
+		if (on_wire == 1) {
+			transmit(tid, total_wait);
+			break;
+		}
+		on_wire--;
+		pthread_mutex_unlock(&wire);
+	}
 }
 
 /* 
@@ -67,37 +93,13 @@ void transmit(int tid, int wait) {
  * of time slots, then re-attempt.
  */
 void try_transmit(int tid) {
-	int wait;
-	int total_wait;
-
-	wait = 0;
-	total_wait = 0;
 	//printf("station %d woke up - attempting to transmit\n", tid);
 	while (1) {
 		if (on_wire == 1) {
-			transmit(tid, total_wait);
-			on_wire--;
-			pthread_mutex_unlock(&wire);
+			transmit(tid, 0);
 			break;
 		} else {
-			on_wire--;
-			pthread_mutex_unlock(&wire);
-			while (1) {
-				wait = (1 + rand() % n_stations) * TIME_SLOT;
-				total_wait += wait;
-				//printf("station %d waiting %d usecs\n", tid, wait);
-				usleep(wait);
-				pthread_mutex_lock(&wire);
-				on_wire++;
-				if (on_wire == 1) {
-					transmit(tid, total_wait);
-					on_wire--;
-					pthread_mutex_unlock(&wire);
-					break;
-				}
-				on_wire--;
-				pthread_mutex_unlock(&wire);
-			}
+			wait(tid);
 			break;
 		}
 	}
@@ -118,7 +120,7 @@ void play_round(int tid) {
  * Go through designated number of rounds and attempt to transmit
  * with probability assigned from command line.
  */
-void *stat_proc(void *arg) {
+void *station(void *arg) {
 	int i;
 	intptr_t tid;
 	struct timeval tu;
@@ -195,7 +197,7 @@ int main(int argc, char **argv) {
 	pthread_create(&master_thread, NULL, master, NULL);
 
 	for (i = 0; i < atoi(argv[1]); i++)
-		pthread_create(&stations[i], NULL, stat_proc, (void *) i);
+		pthread_create(&stations[i], NULL, station, (void *) i);
 
 	for (i = 0; i < atoi(argv[1]); i++)
 		pthread_join(stations[i], NULL);
