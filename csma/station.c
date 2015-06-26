@@ -6,13 +6,13 @@
  */
 void transmit(int tid, int wait) {
 	if (verbose) {
-		printf("%d transmitting\n", tid);
+		printf("station %d transmitting\n", tid);
 		printf("  waited %d usecs\n", wait);
 	}
 	trans_count++;
 	global_wait += wait;
 	on_wire--;
-	pthread_mutex_unlock(&wire);
+	pt_mutex_unlock_wrapper(&wire);
 }
 
 void wait(int tid) {
@@ -22,20 +22,20 @@ void wait(int tid) {
 	wait = 0;
 	total_wait = 0;
 	on_wire--;
-	pthread_mutex_unlock(&wire);
+	pt_mutex_unlock_wrapper(&wire);
 	while (1) {
 		wait = (1 + rand() % n_stations) * TIME_SLOT;
 		total_wait += wait;
 		//printf("station %d waiting %d usecs\n", tid, wait);
 		usleep(wait);
-		pthread_mutex_lock(&wire);
+		pt_mutex_lock_wrapper(&wire);
 		on_wire++;
 		if (on_wire == 1) {
 			transmit(tid, total_wait);
 			break;
 		}
 		on_wire--;
-		pthread_mutex_unlock(&wire);
+		pt_mutex_unlock_wrapper(&wire);
 	}
 }
 
@@ -60,10 +60,10 @@ void try_transmit(int tid) {
 void play_round(int tid) {
 	if (rand() % 100 > (prob_transmit * 100))
 		return;
-	pthread_mutex_lock(&wire);
+	pt_mutex_lock_wrapper(&wire);
 	on_wire++;
 	//printf("station %d ready to transmit slot %ld\n", tid, slot_count);
-	pthread_cond_wait(&slot, &wire);
+	pt_cond_wait_wrapper(&slot, &wire);
 	try_transmit(tid);
 }
 
@@ -81,6 +81,7 @@ void *station(void *arg) {
 	srand(tu.tv_usec);
 
 	tid = (intptr_t) arg;
+	debug("station %d initialized\n", (int) tid);
 	for (i = 0; i < ROUNDS; i++)
 		play_round(tid);
 	

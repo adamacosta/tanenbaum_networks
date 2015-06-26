@@ -1,10 +1,15 @@
 #include "csma.h"
 
+/* timer, alarm, and signal handler */
+static sigset_t vtalrm;
+static struct itimerval timer;
+static struct sigaction act;
+
 /* Sends broadcast signal to all stations waiting for time slot */
 void alrm_handler(int sig) {
 	//printf("alarm\n");
 	slot_count++;
-	pthread_cond_broadcast(&slot);
+	pt_cond_broadcast_wrapper(&slot);
 }
 
 /*
@@ -29,6 +34,7 @@ void *master(void *arg) {
 		perror ("sigaction");
 		exit(EXIT_FAILURE);
 	}
+	debug("master initialized\n");
 
 	while (1)
 		;
