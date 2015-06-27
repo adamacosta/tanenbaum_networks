@@ -1,3 +1,6 @@
+#ifndef CRC_H
+#define CRC_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,3 +23,5 @@ typedef union {
 
 void init_crc_table();
 crc update_crc(crc cur_crc, char c);
+
+#endif

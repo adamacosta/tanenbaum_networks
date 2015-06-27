@@ -1,23 +1,29 @@
-CC     = gcc
-CFLAGS = -g -Wall -std=c99
-LIBS   = -lm
-HDR    = crc.h
-INC    = crc.c
+CC       = gcc
+CFLAGS   = -g -Wall -std=c99
+LIBS     = -lm
+SRC_DIR  = src
+TEST_DIR = tests
+BIN_DIR  = bin
+HDR      = $(SRC_DIR)/crc.h
+INC      = $(SRC_DIR)/crc.c
 
 #### Build for test ####
 
 all: generator verifier alter
 
-generator: generator.c $(INC) $(HDR)
-	$(CC) -o generator  $(CFLAGS) generator.c $(INC) $(LIBS)
+generator: $(SRC_DIR)/generator.c $(INC) $(HDR)
+	$(CC) -o $(BIN_DIR)/generator  $(CFLAGS) $(SRC_DIR)/generator.c $(INC) $(LIBS)
+	$(RM) -f *.o
 
-verifier: verifier.c $(INC) $(HDR)
-	$(CC) -o verifier $(CFLAGS) verifier.c $(INC) $(LIBS)
+verifier: $(SRC_DIR)/verifier.c $(INC) $(HDR)
+	$(CC) -o $(BIN_DIR)/verifier $(CFLAGS) $(SRC_DIR)/verifier.c $(INC) $(LIBS)
+	$(RM) -f *.o
 
-alter: alter.c $(INC) $(HDR)
-	$(CC) -o alter $(CFLAGS) alter.c $(INC) $(LIBS)
+alter: $(SRC_DIR)/alter.c $(INC) $(HDR)
+	$(CC) -o $(BIN_DIR)/alter $(CFLAGS) $(SRC_DIR)/alter.c $(INC) $(LIBS)
+	$(RM) -f *.o
 
 #### Cleanup ####
 
 clean:
-	rm -f generator verifier alter
+	$(RM) -f $(BIN_DIR)/generator $(BIN_DIR)/verifier $(BIN_DIR)/alter

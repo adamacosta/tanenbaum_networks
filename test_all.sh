@@ -17,7 +17,11 @@ echo "    Test 1: Chapter 3 Lab - CRC Error Checking    "
 echo "=================================================="
 
 pushd $DIR1 > /dev/null
+make > /dev/null
+pushd bin > /dev/null
 python -m unittest discover
+popd > /dev/null
+make clean > /dev/null
 popd > /dev/null
 
 echo "=================================================="

@@ -1,11 +1,15 @@
 #! /bin/bash
 
 function run_csma {
+	pushd bin > /dev/null
 	./csma $1 $2
+	popd > /dev/null
 }
 
 function run_csma_verbose {
-	./csma $1 $2 --verbose 
+	pushd bin > /dev/null
+	./csma $1 $2 --verbose
+	popd > /dev/null 
 }
 
 make > /dev/null
