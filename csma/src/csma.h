@@ -77,7 +77,7 @@ void debug(const char *format, ...);
 void pt_mutex_init_wrapper(pthread_mutex_t *thread, 
 	                       const pthread_mutexattr_t *attr);
 void pt_cond_init_wrapper(pthread_cond_t *cond, 
-	                       const pthread_condattr_t *attr);
+	                      const pthread_condattr_t *attr);
 void pt_mutex_lock_wrapper(pthread_mutex_t *mutex);
 void pt_mutex_unlock_wrapper(pthread_mutex_t *mutex);
 void pt_cond_wait_wrapper(pthread_cond_t *cond, pthread_mutex_t *mutex);
@@ -85,7 +85,7 @@ void pt_cond_broadcast_wrapper(pthread_cond_t *cond);
 void pt_mutex_destroy_wrapper(pthread_mutex_t *mutex);
 void pt_cond_destroy_wrapper(pthread_cond_t * cond);
 void pt_create_wrapper(pthread_t *thread, const pthread_attr_t *attr,
-                              void *(*start_routine)(void*), void *arg);
+                       void *(*start_routine)(void*), void *arg);
 void pt_join_wrapper(pthread_t thread, void **value_ptr);
 
 #endif

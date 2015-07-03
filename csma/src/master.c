@@ -7,7 +7,6 @@ static struct sigaction act;
 
 /* Send broadcast signal to all stations waiting for time slot */
 void alrm_handler(int sig) {
-	//printf("alarm\n");
 	slot_count++;
 	pt_cond_broadcast_wrapper(&slot);
 }

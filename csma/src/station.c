@@ -26,7 +26,7 @@ void wait(int tid) {
 	while (1) {
 		wait = (1 + rand() % n_stations) * TIME_SLOT;
 		total_wait += wait;
-		//printf("station %d waiting %d usecs\n", tid, wait);
+		debug("station %d waiting %d usecs\n", tid, wait);
 		usleep(wait);
 		pt_mutex_lock_wrapper(&wire);
 		on_wire++;
@@ -45,7 +45,7 @@ void wait(int tid) {
  * of time slots, then re-attempt.
  */
 void try_transmit(int tid) {
-	//printf("station %d woke up - attempting to transmit\n", tid);
+	debug("station %d woke up - attempting to transmit\n", tid);
 	while (1) {
 		if (on_wire == 1) {
 			transmit(tid, 0);
@@ -62,7 +62,7 @@ void play_round(int tid) {
 		return;
 	pt_mutex_lock_wrapper(&wire);
 	on_wire++;
-	//printf("station %d ready to transmit slot %ld\n", tid, slot_count);
+	debug("station %d ready to transmit slot %ld\n", tid, slot_count);
 	pt_cond_wait_wrapper(&slot, &wire);
 	try_transmit(tid);
 }
